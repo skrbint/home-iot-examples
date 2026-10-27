@@ -1,0 +1,40 @@
+esphome:
+  name: room
+  friendly_name: Room
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+api:
+  encryption:
+    key: !secret esp32dev_api_encryption_key
+
+ota:
+  - platform: esphome
+    password: !secret esp32dev_ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+logger:
+captive_portal:
+
+binary_sensor:
+  - platform: status
+    id: system_status
+    name: "ESPHome status"
+
+sensor:
+  - platform: dht
+    model: AM2302
+    pin: GPIO32
+    temperature:
+      name: "Room Temperature"
+      accuracy_decimals: 1
+    humidity:
+      name: "Room Humidity"
+      accuracy_decimals: 1
+    update_interval: 60s

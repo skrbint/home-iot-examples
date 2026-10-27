@@ -1,0 +1,22 @@
+services:
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    hostname: zigbee2mqtt
+    image: ghcr.io/koenkk/zigbee2mqtt
+    environment:
+      - Z2M_WATCHDOG=default
+    volumes:
+      - <data-path>:/app/data
+      - /run/udev:/run/udev:ro
+#   ports:
+#     - 8080:8080
+    restart: unless-stopped
+    networks:
+      - prod
+    devices:
+      - /dev/serial/by-id/<zigbee-usb-dongle-uuid>:/dev/ttyUSB0
+
+networks:
+  prod:
+    name: prod
+    external: true
